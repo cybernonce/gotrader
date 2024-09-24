@@ -2,7 +2,6 @@ package okxv5
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/wsg011/gotrader/exchange/base"
 	"github.com/wsg011/gotrader/pkg/ws"
@@ -151,22 +150,23 @@ func (okx *OkxV5Exchange) Subscribe(params map[string]interface{}) error {
 
 func (okx *OkxV5Exchange) SubscribeBookTicker(symbols []string, callback func(*types.BookTicker)) error {
 	for _, symbol := range symbols {
-		params := map[string]interface{}{
-			"op": "subscribe",
-			"args": []map[string]string{
-				{
-					"channel": "bbo-tbt",
-					"instId":  Symbol2OkInstId(symbol),
-				},
-			},
-		}
-		if okx.pubWsClient == nil {
-			return fmt.Errorf("pubWsClient is nil")
-		}
-		if err := okx.pubWsClient.Write(params); err != nil {
-			return fmt.Errorf("Subscribe err: %s", err)
-		}
-		time.Sleep(200 * time.Millisecond)
+		// params := map[string]interface{}{
+		// 	"op": "subscribe",
+		// 	"args": []map[string]string{
+		// 		{
+		// 			"channel": "bbo-tbt",
+		// 			"instId":  Symbol2OkInstId(symbol),
+		// 		},
+		// 	},
+		// }
+		// if okx.pubWsClient == nil {
+		// 	return fmt.Errorf("pubWsClient is nil")
+		// }
+		// if err := okx.pubWsClient.Write(params); err != nil {
+		// 	return fmt.Errorf("Subscribe err: %s", err)
+		// }
+		// time.Sleep(200 * time.Millisecond)
+		okx.pubWsClient.Subscribe(symbol, "bbo-tbt")
 	}
 
 	okx.onBooktickerCallback = callback
@@ -187,22 +187,26 @@ func (okx *OkxV5Exchange) SubscribeOrders(symbols []string, callback func(orders
 	***/
 
 	// 构建订阅请求的参数
-	args := make([]map[string]string, 0)
-	for _, symbol := range symbols {
-		arg := map[string]string{
-			"channel":  "orders",
-			"instType": "SWAP",                  // 这里假设所有的symbol都是SWAP类型，根据需要调整
-			"instId":   Symbol2OkInstId(symbol), // 为每个symbol设置instFamily
-		}
-		args = append(args, arg)
-	}
+	// args := make([]map[string]string, 0)
+	// for _, symbol := range symbols {
+	// 	arg := map[string]string{
+	// 		"channel":  "orders",
+	// 		"instType": "SWAP",                  // 这里假设所有的symbol都是SWAP类型，根据需要调整
+	// 		"instId":   Symbol2OkInstId(symbol), // 为每个symbol设置instFamily
+	// 	}
+	// 	args = append(args, arg)
+	// }
 
-	params := map[string]interface{}{
-		"op":   "subscribe",
-		"args": args,
-	}
-	if err := okx.priWsClient.Write(params); err != nil {
-		return fmt.Errorf("Subscribe err: %s", err)
+	// params := map[string]interface{}{
+	// 	"op":   "subscribe",
+	// 	"args": args,
+	// }
+	// if err := okx.priWsClient.Write(params); err != nil {
+	// 	return fmt.Errorf("Subscribe err: %s", err)
+	// }
+
+	for _, symbol := range symbols {
+		okx.priWsClient.Subscribe(symbol, "orders")
 	}
 
 	okx.onOrderCallback = callback

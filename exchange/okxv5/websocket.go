@@ -68,14 +68,19 @@ func (ok *OkImp) OnConnected(cli *ws.WsClient, typ ws.ConnectType) {
 }
 
 func (ok *OkImp) Subscribe(symbol string, topic string) map[string]interface{} {
-	params := map[string]interface{}{
-		"op": "subscribe",
-		"args": []map[string]string{
-			{
-				"channel": "bbo-tbt",
-				"instId":  Symbol2OkInstId(symbol),
-			},
+	args := []map[string]string{
+		{
+			"channel": topic,
+			"instId":  Symbol2OkInstId(symbol),
 		},
+	}
+	if topic == "orders" {
+		args[0]["instType"] = "SWAP"
+	}
+
+	params := map[string]interface{}{
+		"op":   "subscribe",
+		"args": args,
 	}
 	return params
 }

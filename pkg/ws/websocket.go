@@ -19,6 +19,7 @@ type WsClient struct {
 	wch      chan []byte
 	imp      WsImp
 	exchange constant.ExchangeType
+	subMap   map[string][]string
 	priv     bool
 
 	recvPingTime time.Time
@@ -81,6 +82,9 @@ func (ws *WsClient) Dial(typ ConnectType) error {
 	ws.recvPingTime = now
 	ws.recvPongTime = now
 	ws.quit = make(chan struct{})
+	if ws.subMap == nil {
+		ws.subMap = make(map[string][]string)
+	}
 
 	ws.Conn.SetPingHandler(func(message string) error {
 		ws.recvPingTime = time.Now()
@@ -111,6 +115,16 @@ func (ws *WsClient) reconnect() {
 			continue
 		}
 		log.Infof("Reconnect success.")
+
+		// 断开重连，订阅
+		for symbol, topics := range ws.subMap {
+			for _, topic := range topics {
+				streams := ws.imp.Subscribe(symbol, topic)
+				log.Infof("resubscribe %s", streams)
+				ws.Write(streams)
+				time.Sleep(100 * time.Millisecond)
+			}
+		}
 		break
 	}
 }
@@ -193,6 +207,16 @@ func (ws *WsClient) writeLoop() {
 			}
 		}
 	}
+}
+
+func (ws *WsClient) Subscribe(symbol string, topic string) {
+	ovs, ok := ws.subMap[symbol]
+	if !ok {
+		ovs = append(ovs, topic)
+		ws.subMap[symbol] = ovs
+	}
+	streams := ws.imp.Subscribe(symbol, topic)
+	ws.Write(streams)
 }
 
 func (ws *WsClient) Write(req interface{}) error {

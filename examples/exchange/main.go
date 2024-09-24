@@ -56,7 +56,7 @@ func main() {
 		Passphrase: "I/6Ad2qolM05Lh",
 	}
 	exchange := okxv5.NewOkxV5Swap(params)
-	symbols := []string{"APE_USDT", "APE_USDT_SWAP"}
+	symbols := []string{"ETH_USDT", "ETH_USDT_SWAP"}
 	err := exchange.SubscribeBookTicker(symbols, onBookTickerHandle)
 	if err != nil {
 		log.Errorf("SubscribeBookticker err %s", err)
@@ -69,7 +69,7 @@ func main() {
 		}
 	}
 	time.Sleep(time.Second)
-	err = exchange.SubscribeOrders([]string{"APE_USDT_SWAP"}, onOrdersHandle)
+	err = exchange.SubscribeOrders([]string{"ETH_USDT_SWAP"}, onOrdersHandle)
 	if err != nil {
 		log.Errorf("SubscribeOrders err %s", err)
 		return
