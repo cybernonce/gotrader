@@ -5,6 +5,7 @@ type Asset struct {
 	Free   float64
 	Frozen float64
 	Total  float64
+	EqUsd  float64
 }
 
 type Assets struct {
