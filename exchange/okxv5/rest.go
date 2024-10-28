@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/wsg011/gotrader/pkg/httpx"
@@ -231,14 +232,10 @@ func (client *RestClient) CreateBatchOrders(orders []*types.Order) ([]*types.Ord
 func formRequest(order *types.Order) map[string]interface{} {
 	oSide := OkxOrderSide[order.Side.Name()]
 	oType := OkxOrderType[order.Type.Name()]
-	// tdModel := "cash" // 现货
-	// tmp := strings.Split(order.Symbol, "_")
-	// if len(tmp) == 3 {
-	// 	tdModel = "cross"
-	// }
-
-	// 目前只支持全仓模式
-	tdModel := "cross"
+	tdModel := "cash" // 现货
+	if strings.HasSuffix(order.Symbol, "_SWAP") {
+		tdModel = "cross"
+	}
 	result := map[string]interface{}{
 		"instId":  Symbol2OkInstId(order.Symbol),
 		"tdMode":  tdModel,

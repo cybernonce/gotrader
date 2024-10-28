@@ -49,11 +49,13 @@ func (b OkBalanceDetail) ToAssets() types.Asset {
 	free, _ := strconv.ParseFloat(b.CashBal, 64)
 	frozen, _ := strconv.ParseFloat(b.FrozenBal, 64)
 	total, _ := strconv.ParseFloat(b.Eq, 64)
+	eqUsd, _ := strconv.ParseFloat(b.EqUsd, 64)
 	return types.Asset{
 		Coin:   b.Ccy,
 		Free:   free,
 		Frozen: frozen,
 		Total:  total,
+		EqUsd:  eqUsd,
 	}
 }
 
