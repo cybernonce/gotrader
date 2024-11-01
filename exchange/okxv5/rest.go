@@ -232,7 +232,7 @@ func (client *RestClient) CreateBatchOrders(orders []*types.Order) ([]*types.Ord
 func formRequest(order *types.Order) map[string]interface{} {
 	oSide := OkxOrderSide[order.Side.Name()]
 	oType := OkxOrderType[order.Type.Name()]
-	tdModel := "cash" // 现货
+	tdModel := "cross" // 现货
 	if strings.HasSuffix(order.Symbol, "_SWAP") {
 		tdModel = "cross"
 	}
