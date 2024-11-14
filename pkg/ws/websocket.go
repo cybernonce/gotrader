@@ -105,8 +105,6 @@ func (ws *WsClient) Dial(typ ConnectType) error {
 }
 
 func (ws *WsClient) reconnect() {
-	ws.Close() // 关闭现有连接
-
 	for {
 		err := ws.Dial(Reconnect)
 		if err != nil {
@@ -142,8 +140,6 @@ func (ws *WsClient) Close() {
 }
 
 func (ws *WsClient) pingLoop() {
-	defer ws.Close()
-
 	epoch := ws.epoch
 	for !ws.closed || epoch != atomic.LoadInt64(&ws.epoch) {
 		if time.Since(ws.recvPongTime) > ws.pongTimeout {
@@ -171,13 +167,18 @@ func (ws *WsClient) readLoop() {
 	conn := ws.Conn
 	log.Println("Start WS read loop")
 	epoch := ws.epoch
-
-	defer ws.Close()
+	var needReconnect bool
+	defer func() {
+		ws.Close()
+		if needReconnect {
+			ws.reconnect() // 断开时重连
+		}
+	}()
 	for !ws.closed || epoch != atomic.LoadInt64(&ws.epoch) {
 		_, body, err := conn.ReadMessage()
 		if err != nil {
 			log.WithError(err).Errorf("websocket conn read timeout")
-			ws.reconnect() // 断开时重连
+			needReconnect = true
 			return
 		}
 		func() {
@@ -195,7 +196,6 @@ func (ws *WsClient) writeLoop() {
 	log.Println("Start WS write loop")
 	epoch := ws.epoch
 
-	defer ws.Close()
 	for !ws.closed || epoch != atomic.LoadInt64(&ws.epoch) {
 		select {
 		case <-ws.quit:
