@@ -140,6 +140,8 @@ func (ws *WsClient) Close() {
 }
 
 func (ws *WsClient) pingLoop() {
+	defer ws.Close()
+
 	epoch := ws.epoch
 	for !ws.closed || epoch != atomic.LoadInt64(&ws.epoch) {
 		if time.Since(ws.recvPongTime) > ws.pongTimeout {
@@ -196,6 +198,7 @@ func (ws *WsClient) writeLoop() {
 	log.Println("Start WS write loop")
 	epoch := ws.epoch
 
+	defer ws.Close()
 	for !ws.closed || epoch != atomic.LoadInt64(&ws.epoch) {
 		select {
 		case <-ws.quit:
