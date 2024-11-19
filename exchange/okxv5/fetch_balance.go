@@ -107,8 +107,10 @@ func balanceTransform(response *BalanceRsp) (*types.Assets, error) {
 		assets[a.Ccy] = a.ToAssets()
 	}
 	totalEq, _ := strconv.ParseFloat(bal.TotalEq, 64)
+	uniMMr, _ := strconv.ParseFloat(bal.MgnRatio, 64)
 	return &types.Assets{
 		Assets:     assets,
 		TotalUsdEq: totalEq,
+		UniMMR: uniMMr,
 	}, nil
 }
