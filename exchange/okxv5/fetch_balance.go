@@ -37,6 +37,7 @@ type OkBalanceDetail struct {
 	IsoEq         string `json:"isoEq"`
 	IsoLiab       string `json:"isoLiab"`
 	IsoUpl        string `json:"isoUpl"`
+	Imr           string `json:"imr"`
 	MgnRatio      string `json:"mgnRatio"`
 	NotionalLever string `json:"notionalLever"`
 	OrdFrozen     string `json:"ordFrozen"`
@@ -108,6 +109,10 @@ func balanceTransform(response *BalanceRsp) (*types.Assets, error) {
 	}
 	totalEq, _ := strconv.ParseFloat(bal.TotalEq, 64)
 	uniMMr, _ := strconv.ParseFloat(bal.MgnRatio, 64)
+	// imr, _ := strconv.ParseFloat(bal.Imr, 64)
+	if (uniMMr == 0) && (totalEq > 0) {
+		uniMMr = 20
+	}
 	return &types.Assets{
 		Assets:     assets,
 		TotalUsdEq: totalEq,

@@ -112,6 +112,8 @@ func (ws *WsClient) reconnect() {
 			time.Sleep(5 * time.Second) // 重连前等待
 			continue
 		}
+
+		time.Sleep(1 * time.Second) // 重订阅前等待
 		log.Infof("Reconnect success.")
 
 		// 断开重连，订阅
