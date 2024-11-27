@@ -9,7 +9,8 @@ type Asset struct {
 }
 
 type Assets struct {
-	Assets     map[string]Asset
-	UniMMR 	   float64
-	TotalUsdEq float64
+	Assets        map[string]Asset
+	UniMMR 	      float64
+	TotalUsdEq    float64
+	AccountMargin float64
 }
