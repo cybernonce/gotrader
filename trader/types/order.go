@@ -7,26 +7,29 @@ import (
 )
 
 type Order struct {
-	Symbol        string                `json:"symbol"`
-	Exchange      constant.ExchangeType `json:"exchangeType"`
-	Type          constant.OrderType    `json:"type"`
-	OrderID       string                `json:"orderId"`
-	ClientID      string                `json:"clientID"`
-	Side          constant.OrderSide    `json:"side"`
-	Price         string                `json:"price"`
-	OrigQty       string                `json:"origQty"`
-	Amount        string                `json:"amount"` // 订单quote额度
-	ExecutedQty   string                `json:"executedQty"`
-	ExecutedAmt   string
-	AvgPrice      string               `json:"avgPrice"`
-	Fee           string               `json:"fee"`
-	Status        constant.OrderStatus `json:"status"` // 自定义的订单状态，统一各交易所订单状态
-	MarketType    string
-	HedgeClientId string
-	HedgingPrice  string
-	ExpectSpred   float64
-	CreateAt      int64 `gorm:"column:createAt;" json:"createAt"`
-	UpdateAt      int64 `gorm:"column:updateAt;" json:"updateAt"`
+	Symbol      string                `json:"symbol"`
+	Exchange    constant.ExchangeType `json:"exchangeType"`
+	MarketType  string
+	Type        constant.OrderType `json:"type"`
+	OrderID     string             `json:"orderId"`
+	ClientID    string             `json:"clientID"`
+	Side        constant.OrderSide `json:"side"`
+	Price       string             `json:"price"`
+	OrigQty     string             `json:"origQty"`
+	Amount      string             `json:"amount"` // 订单quote额度
+	ExecutedQty string             `json:"executedQty"`
+	ExecutedAmt string
+	AvgPrice    string               `json:"avgPrice"`
+	Fee         string               `json:"fee"`
+	Status      constant.OrderStatus `json:"status"` // 自定义的订单状态，统一各交易所订单状态
+
+	TargetPrice   float64 // 目标价格
+	HedgeClientId string  // 对冲订单ID
+	HedgePrice    string  // 对冲价格
+	Slippage      float64 // 滑点
+
+	CreateAt int64 `gorm:"column:createAt;" json:"createAt"`
+	UpdateAt int64 `gorm:"column:updateAt;" json:"updateAt"`
 }
 
 func (order *Order) IsOver() bool {
