@@ -169,7 +169,7 @@ func (ws *WsClient) pingLoop() {
 
 func (ws *WsClient) readLoop() {
 	conn := ws.Conn
-	log.Println("Start WS read loop")
+	log.Info("Start WS read loop")
 	epoch := ws.epoch
 	var needReconnect bool
 	defer func() {
@@ -197,7 +197,7 @@ func (ws *WsClient) readLoop() {
 }
 
 func (ws *WsClient) writeLoop() {
-	log.Println("Start WS write loop")
+	log.Info("Start WS write loop")
 	epoch := ws.epoch
 
 	defer ws.Close()

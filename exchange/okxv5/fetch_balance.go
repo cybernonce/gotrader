@@ -10,10 +10,10 @@ import (
 )
 
 type OkBalance struct {
-	AdjEq       string             `json:"adjEq"`  // 美金层面有效保证金
+	AdjEq       string             `json:"adjEq"` // 美金层面有效保证金
 	BorrowFroz  string             `json:"borrowFroz"`
 	Details     []*OkBalanceDetail `json:"details"`
-	Imr         string             `json:"imr"`
+	Imr         string             `json:"imr"` // 占用保证金
 	IsoEq       string             `json:"isoEq"`
 	MgnRatio    string             `json:"mgnRatio"`
 	Mmr         string             `json:"mmr"`
@@ -30,7 +30,7 @@ type OkBalanceDetail struct {
 	CashBal       string `json:"cashBal"`
 	Ccy           string `json:"ccy"`
 	CrossLiab     string `json:"crossLiab"`
-	Eq            string `json:"eq"`              // 币种总权益
+	Eq            string `json:"eq"` // 币种总权益
 	EqUsd         string `json:"eqUsd"`
 	FixedBal      string `json:"fixedBal"`
 	FrozenBal     string `json:"frozenBal"`
@@ -117,11 +117,14 @@ func balanceTransform(response *BalanceRsp) (*types.Assets, error) {
 	// account margin
 	adjEq, _ := strconv.ParseFloat(bal.AdjEq, 64)
 	notionalUsd, _ := strconv.ParseFloat(bal.NotionalUsd, 64)
-	accountMargin := notionalUsd/adjEq
+	imr, _ := strconv.ParseFloat(bal.Imr, 64)
+	accountMargin := notionalUsd / adjEq
+	freeUsdEq := adjEq - imr
 	return &types.Assets{
-		Assets:     assets,
-		TotalUsdEq: totalEq,
-		UniMMR: uniMMr,
+		Assets:        assets,
+		TotalUsdEq:    totalEq,
+		FreeUsdEq:     freeUsdEq,
+		UniMMR:        uniMMr,
 		AccountMargin: accountMargin,
 	}, nil
 }

@@ -1,13 +1,13 @@
 package okxv5
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
 
+	"github.com/bytedance/sonic"
 	"github.com/wsg011/gotrader/pkg/httpx"
 	"github.com/wsg011/gotrader/pkg/utils"
 	"github.com/wsg011/gotrader/trader/constant"
@@ -100,7 +100,7 @@ func (client *RestClient) FetchKline(symbol string, interval string, limit int64
 	}
 
 	response := new(KlineRsp)
-	if err = json.Unmarshal(body, response); err != nil {
+	if err = sonic.Unmarshal(body, response); err != nil {
 		log.Errorf("ok get /api/v5/market/candles parser err:%v", err)
 		return nil, err
 	}
@@ -196,7 +196,7 @@ func (client *RestClient) CreateBatchOrders(orders []*types.Order) ([]*types.Ord
 	for _, item := range orders {
 		param = append(param, formRequest(item))
 	}
-	payload, _ := json.Marshal(param)
+	payload, _ := sonic.Marshal(param)
 	uri := CreateBatchOrderUri
 	body, _, err := client.HttpRequest(http.MethodPost, uri, payload)
 	httpRequestTime := time.Now()
@@ -206,7 +206,7 @@ func (client *RestClient) CreateBatchOrders(orders []*types.Order) ([]*types.Ord
 		return nil, err
 	}
 	response := new(CreateOrderResponse)
-	if err = json.Unmarshal(body, response); err != nil {
+	if err = sonic.Unmarshal(body, response); err != nil {
 		log.Errorf("okx post /api/v5/trade/batch-orders err 数据解析失败:%v", err)
 		return nil, err
 	}
@@ -281,7 +281,7 @@ func (client *RestClient) CancelBatchOrders(orders []*types.Order) ([]*types.Ord
 	for _, item := range orders {
 		param = append(param, formCancelRequest(item))
 	}
-	payload, _ := json.Marshal(param)
+	payload, _ := sonic.Marshal(param)
 	uri := CancelBatchOrderUri
 	body, _, err := client.HttpRequest(http.MethodPost, uri, payload)
 	httpRequestTime := time.Now()
@@ -290,7 +290,7 @@ func (client *RestClient) CancelBatchOrders(orders []*types.Order) ([]*types.Ord
 		return nil, err
 	}
 	response := new(CancelOrderResponse)
-	if err = json.Unmarshal(body, response); err != nil {
+	if err = sonic.Unmarshal(body, response); err != nil {
 		log.Errorf("okx post /api/v5/trade/cancel-batch-orders err 数据解析失败:%v", err)
 		return nil, err
 	}
