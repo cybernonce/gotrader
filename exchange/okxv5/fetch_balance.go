@@ -120,11 +120,13 @@ func balanceTransform(response *BalanceRsp) (*types.Assets, error) {
 	imr, _ := strconv.ParseFloat(bal.Imr, 64)
 	accountMargin := notionalUsd / adjEq
 	freeUsdEq := adjEq - imr
+	borrowed, _ := strconv.ParseFloat(bal.BorrowFroz, 64)
 	return &types.Assets{
 		Assets:        assets,
 		TotalUsdEq:    totalEq,
 		FreeUsdEq:     freeUsdEq,
 		UniMMR:        uniMMr,
 		AccountMargin: accountMargin,
+		Borrowed:      borrowed,
 	}, nil
 }

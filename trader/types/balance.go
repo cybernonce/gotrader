@@ -14,4 +14,5 @@ type Assets struct {
 	TotalUsdEq    float64
 	FreeUsdEq     float64
 	AccountMargin float64
+	Borrowed      float64
 }
