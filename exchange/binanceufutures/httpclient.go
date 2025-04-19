@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/wsg011/gotrader/pkg/httpx"
-	"github.com/wsg011/gotrader/pkg/utils"
-	"github.com/wsg011/gotrader/trader/constant"
+	"github.com/cybernonce/gotrader/pkg/httpx"
+	"github.com/cybernonce/gotrader/pkg/utils"
+	"github.com/cybernonce/gotrader/trader/constant"
 )
 
 var httpClient = httpx.NewClient()

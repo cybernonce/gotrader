@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/wsg011/gotrader/trader/types"
+	"github.com/cybernonce/gotrader/trader/types"
 )
 
 type DemoStrategy struct {

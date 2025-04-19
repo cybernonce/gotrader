@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/wsg011/gotrader/trader/constant"
-	"github.com/wsg011/gotrader/trader/types"
+	"github.com/cybernonce/gotrader/trader/constant"
+	"github.com/cybernonce/gotrader/trader/types"
 )
 
 type OrderResponse struct {

@@ -1,7 +1,7 @@
 package event
 
 import (
-	"github.com/wsg011/gotrader/trader/constant"
+	"github.com/cybernonce/gotrader/trader/constant"
 	"testing"
 	"time"
 )

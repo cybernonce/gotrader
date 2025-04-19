@@ -8,10 +8,10 @@ import (
 	"time"
 
 	"github.com/bytedance/sonic"
-	"github.com/wsg011/gotrader/pkg/httpx"
-	"github.com/wsg011/gotrader/pkg/utils"
-	"github.com/wsg011/gotrader/trader/constant"
-	"github.com/wsg011/gotrader/trader/types"
+	"github.com/cybernonce/gotrader/pkg/httpx"
+	"github.com/cybernonce/gotrader/pkg/utils"
+	"github.com/cybernonce/gotrader/trader/constant"
+	"github.com/cybernonce/gotrader/trader/types"
 )
 
 var httpClient = httpx.NewClient()
@@ -243,6 +243,7 @@ func formRequest(order *types.Order) map[string]interface{} {
 		"ordType": Type2Okx[oType],
 		"px":      order.Price,
 		"sz":      order.OrigQty,
+		"tag": 	   "184138290eafBCDE",
 	}
 	if order.ClientID != "" {
 		result["clOrdId"] = order.ClientID

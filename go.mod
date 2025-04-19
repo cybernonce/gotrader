@@ -1,4 +1,4 @@
-module github.com/wsg011/gotrader
+module github.com/cybernonce/gotrader
 
 go 1.20
 

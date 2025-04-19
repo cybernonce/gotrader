@@ -3,13 +3,13 @@ package exchange
 import (
 	"fmt"
 
-	"github.com/wsg011/gotrader/exchange/binanceportfolio"
-	"github.com/wsg011/gotrader/exchange/binancespot"
-	"github.com/wsg011/gotrader/exchange/binanceufutures"
-	"github.com/wsg011/gotrader/exchange/okxv5"
-	"github.com/wsg011/gotrader/trader"
-	"github.com/wsg011/gotrader/trader/constant"
-	"github.com/wsg011/gotrader/trader/types"
+	"github.com/cybernonce/gotrader/exchange/binanceportfolio"
+	"github.com/cybernonce/gotrader/exchange/binancespot"
+	"github.com/cybernonce/gotrader/exchange/binanceufutures"
+	"github.com/cybernonce/gotrader/exchange/okxv5"
+	"github.com/cybernonce/gotrader/trader"
+	"github.com/cybernonce/gotrader/trader/constant"
+	"github.com/cybernonce/gotrader/trader/types"
 )
 
 func NewExchange(exchangeType constant.ExchangeType, params *types.ExchangeParameters) trader.Exchange {

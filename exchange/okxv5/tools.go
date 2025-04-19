@@ -9,13 +9,16 @@ import (
 	"strings"
 	"time"
 
-	"github.com/wsg011/gotrader/trader/constant"
+	"github.com/cybernonce/gotrader/trader/constant"
 )
 
 var (
 	RestUrl  = "https://www.okx.com"
 	PubWsUrl = "wss://ws.okx.com:8443/ws/v5/public"
 	PriWsUrl = "wss://ws.okx.com:8443/ws/v5/private"
+	// RestUrl  = "https://coloapi3.okx.com"
+	// PubWsUrl = "wss://colows-d.okx.com/ws/v5/public"
+	// PriWsUrl = "wss://colows-d.okx.com/ws/v5/private"
 
 	OkxOrderSide = map[string]string{
 		constant.OrderBuy.Name():   "BUY",

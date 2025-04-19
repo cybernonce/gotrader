@@ -3,7 +3,7 @@ package types
 import (
 	"strconv"
 
-	"github.com/wsg011/gotrader/trader/constant"
+	"github.com/cybernonce/gotrader/trader/constant"
 )
 
 type Order struct {
