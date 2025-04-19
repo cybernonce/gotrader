@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/wsg011/gotrader/trader/types"
+	"github.com/cybernonce/gotrader/trader/types"
 )
 
 type OkBalance struct {

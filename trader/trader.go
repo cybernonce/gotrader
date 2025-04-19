@@ -1,7 +1,7 @@
 package trader
 
 import (
-	"github.com/wsg011/gotrader/event"
+	"github.com/cybernonce/gotrader/event"
 	"sync"
 
 	"github.com/sirupsen/logrus"

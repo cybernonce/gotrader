@@ -7,8 +7,8 @@ import (
 	"strings"
 
 	"github.com/shopspring/decimal"
-	"github.com/wsg011/gotrader/pkg/utils"
-	"github.com/wsg011/gotrader/trader/types"
+	"github.com/cybernonce/gotrader/pkg/utils"
+	"github.com/cybernonce/gotrader/trader/types"
 )
 
 type BalanceResponse struct {

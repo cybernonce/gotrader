@@ -7,7 +7,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/wsg011/gotrader/trader/constant"
+	"github.com/cybernonce/gotrader/trader/constant"
 
 	"github.com/bytedance/sonic"
 	"github.com/gorilla/websocket"

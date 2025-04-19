@@ -12,9 +12,9 @@ import (
 )
 
 var (
-	apiKey      = ""
-	secretKey   = ""
-	passphrase  = ""
+	apiKey      = "b6585a77-34ea-4244-93dc-7e028195c116"
+	secretKey   = "C5CA4D0476EBB1E146F8E5A9C102902C"
+	passphrase  = "m2rA3JyH*J"
 	symbol      = "APE_USDT_SWAP"
 	hedgeSymbol = "APE_USDT"
 	askPrice    = 0.0
@@ -310,3 +310,21 @@ func TestCreateBatchOrdersWs(t *testing.T) {
 // 	time.Sleep(3 * time.Second)
 // 	okxWsClient.Close()
 // }
+
+func TestFetchInterestLimit(t *testing.T) {
+	params := &types.ExchangeParameters{
+		AccessKey:  apiKey,
+		SecretKey:  secretKey,
+		Passphrase: passphrase,
+	}
+	exchange = NewOkxV5Swap(params)
+	name := exchange.GetName()
+	t.Logf("init Exchang name %s", name)
+
+	// Test with specific currency
+	result, err := exchange.FetchInterestLimit("USDT")
+	if err != nil {
+		t.Fatalf("FetchInterestLimit for USDT failed: %v", err)
+	}
+	t.Logf("Sample interest limit data: %+v", result)
+}

@@ -3,10 +3,10 @@ package main
 import (
 	"time"
 
-	"github.com/wsg011/gotrader/exchange/okxv5"
-	"github.com/wsg011/gotrader/pkg/utils"
+	"github.com/cybernonce/gotrader/exchange/okxv5"
+	"github.com/cybernonce/gotrader/pkg/utils"
 
-	"github.com/wsg011/gotrader/trader/types"
+	"github.com/cybernonce/gotrader/trader/types"
 
 	"github.com/sirupsen/logrus"
 )
@@ -56,24 +56,26 @@ func main() {
 		Passphrase: "I/6Ad2qolM05Lh",
 	}
 	exchange := okxv5.NewOkxV5Swap(params)
-	symbols := []string{"ETH_USDT", "ETH_USDT_SWAP"}
+	// symbols := []string{"ETH_USDT", "ETH_USDT_SWAP"}
+	symbols := []string{"ETH_USDT", "ETH_USDT_SWAP", "BTC_USDT", "BTC_USDT_SWAP", "SOL_USDT", "SOL_USDT_SWAP",
+				"DOGE_USDT", "DOGE_USDT_SWAP", "EOS_USDT", "EOS_USDT_SWAP", "ETC_USDT", "ETC_USDT_SWAP", "PEPE_USDT", "PEPE_USDT_PERP"}
 	err := exchange.SubscribeBookTicker(symbols, onBookTickerHandle)
 	if err != nil {
 		log.Errorf("SubscribeBookticker err %s", err)
 		return
 	}
 
-	onOrdersHandle := func(orders []*types.Order) {
-		for _, order := range orders {
-			log.Infof("order %+v", order)
-		}
-	}
-	time.Sleep(time.Second)
-	err = exchange.SubscribeOrders([]string{"ETH_USDT_SWAP"}, onOrdersHandle)
-	if err != nil {
-		log.Errorf("SubscribeOrders err %s", err)
-		return
-	}
+	// onOrdersHandle := func(orders []*types.Order) {
+	// 	for _, order := range orders {
+	// 		log.Infof("order %+v", order)
+	// 	}
+	// }
+	// time.Sleep(time.Second)
+	// err = exchange.SubscribeOrders([]string{"ETH_USDT_SWAP"}, onOrdersHandle)
+	// if err != nil {
+	// 	log.Errorf("SubscribeOrders err %s", err)
+	// 	return
+	// }
 
 	select {}
 }

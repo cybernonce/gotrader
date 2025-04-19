@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/wsg011/gotrader/exchange/base"
+	"github.com/cybernonce/gotrader/exchange/base"
 )
 
 type PrivateTransferResult struct {

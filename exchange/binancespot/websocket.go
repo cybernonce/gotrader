@@ -7,10 +7,10 @@ import (
 
 	"github.com/bytedance/sonic"
 	"github.com/gorilla/websocket"
-	"github.com/wsg011/gotrader/pkg/utils"
-	"github.com/wsg011/gotrader/pkg/ws"
-	"github.com/wsg011/gotrader/trader/constant"
-	"github.com/wsg011/gotrader/trader/types"
+	"github.com/cybernonce/gotrader/pkg/utils"
+	"github.com/cybernonce/gotrader/pkg/ws"
+	"github.com/cybernonce/gotrader/trader/constant"
+	"github.com/cybernonce/gotrader/trader/types"
 )
 
 type BinanceWsData struct {

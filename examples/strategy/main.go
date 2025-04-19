@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/wsg011/gotrader/exchange"
-	"github.com/wsg011/gotrader/trader/constant"
-	"github.com/wsg011/gotrader/trader/types"
+	"github.com/cybernonce/gotrader/exchange"
+	"github.com/cybernonce/gotrader/trader/constant"
+	"github.com/cybernonce/gotrader/trader/types"
 	"os"
 	"os/signal"
 	"syscall"

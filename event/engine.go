@@ -2,7 +2,7 @@ package event
 
 import (
 	"fmt"
-	"github.com/wsg011/gotrader/trader/constant"
+	"github.com/cybernonce/gotrader/trader/constant"
 	"reflect"
 	"strings"
 	"sync"

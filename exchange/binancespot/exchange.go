@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/wsg011/gotrader/exchange/base"
-	"github.com/wsg011/gotrader/pkg/ws"
-	"github.com/wsg011/gotrader/trader/constant"
-	"github.com/wsg011/gotrader/trader/types"
+	"github.com/cybernonce/gotrader/exchange/base"
+	"github.com/cybernonce/gotrader/pkg/ws"
+	"github.com/cybernonce/gotrader/trader/constant"
+	"github.com/cybernonce/gotrader/trader/types"
 )
 
 type BinanceSpotExchange struct {

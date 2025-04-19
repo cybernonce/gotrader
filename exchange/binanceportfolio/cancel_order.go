@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/wsg011/gotrader/trader/types"
+	"github.com/cybernonce/gotrader/trader/types"
 )
 
 func (client *RestClient) CancelUMOrders(orders []*types.Order) ([]*types.OrderResult, error) {

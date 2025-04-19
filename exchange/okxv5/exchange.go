@@ -3,10 +3,10 @@ package okxv5
 import (
 	"fmt"
 
-	"github.com/wsg011/gotrader/exchange/base"
-	"github.com/wsg011/gotrader/pkg/ws"
-	"github.com/wsg011/gotrader/trader/constant"
-	"github.com/wsg011/gotrader/trader/types"
+	"github.com/cybernonce/gotrader/exchange/base"
+	"github.com/cybernonce/gotrader/pkg/ws"
+	"github.com/cybernonce/gotrader/trader/constant"
+	"github.com/cybernonce/gotrader/trader/types"
 )
 
 type OkxV5Exchange struct {
@@ -242,4 +242,9 @@ func (okx *OkxV5Exchange) OnPriWsHandle(data interface{}) {
 	default:
 		log.Errorf("Unknown type %s", v)
 	}
+}
+
+// FetchInterestLimit gets the borrow interest and limit for margin or portfolio margin
+func (okx *OkxV5Exchange) FetchInterestLimit(ccy string) (map[string]OkInterestLimit, error) {
+	return okx.restClient.FetchInterestLimit(ccy)
 }
