@@ -11,7 +11,7 @@ import (
 
 type OkBalance struct {
 	AdjEq       string             `json:"adjEq"` // 美金层面有效保证金
-	BorrowFroz  string             `json:"borrowFroz"`
+	Borrowed    string             `json:"notionalUsdForBorrow"`
 	Details     []*OkBalanceDetail `json:"details"`
 	Imr         string             `json:"imr"` // 占用保证金
 	IsoEq       string             `json:"isoEq"`
@@ -120,7 +120,7 @@ func balanceTransform(response *BalanceRsp) (*types.Assets, error) {
 	imr, _ := strconv.ParseFloat(bal.Imr, 64)
 	accountMargin := notionalUsd / adjEq
 	freeUsdEq := adjEq - imr
-	borrowed, _ := strconv.ParseFloat(bal.BorrowFroz, 64)
+	borrowed, _ := strconv.ParseFloat(bal.Borrowed, 64)
 	return &types.Assets{
 		Assets:        assets,
 		TotalUsdEq:    totalEq,
