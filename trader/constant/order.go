@@ -78,6 +78,8 @@ func (s OrderStatus) Name() string {
 		return "partialFilled"
 	case OrderFilled:
 		return "filled"
+	case OrderRejected:
+		return "rejected"
 	case OrderFailed:
 		return "failed"
 	case OrderCanceled:
@@ -101,6 +103,7 @@ const (
 	OrderComfirmed
 	OrderPartialFilled
 	OrderFilled
+	OrderRejected
 	OrderFailed
 	OrderCanceled
 	OrderClosed

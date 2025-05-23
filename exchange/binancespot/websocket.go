@@ -129,7 +129,7 @@ func (binance *BinanceImp) onBboTbtRecv(data json.RawMessage) {
 		BidQty:     bidSize,
 		ExchangeTs: utils.Microsec(time.Now()),
 		TraceId:    utils.RandomString(8),
-		Ts:         utils.Microsec(time.Now()),
+		LocalTs:    utils.Microsec(time.Now()),
 	}
 
 	binance.rspHandle(evt)

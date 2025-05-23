@@ -125,6 +125,8 @@ func (ok *OkImp) Handle(cli *ws.WsClient, bs []byte) {
 		ok.onBboTbtRecv(dat.Arg.InstId, dat.Data)
 	case "orders":
 		ok.onOrders(dat.Arg.InstId, dat.Data)
+	case "trades":
+		ok.onTrades(dat.Arg.InstId, dat.Data)
 	default:
 		log.WithField("dat", string(dat.Data)).Warn("unknown ok message")
 	}
@@ -152,6 +154,8 @@ func (ok *OkImp) Login(cli *ws.WsClient) {
 }
 
 func (ok *OkImp) onBboTbtRecv(instId string, dat json.RawMessage) {
+	curTs := utils.Microsec(time.Now())
+
 	type bookTicker struct {
 		Asks      [][]string `json:"asks"`
 		Bids      [][]string `json:"bids"`
@@ -197,7 +201,8 @@ func (ok *OkImp) onBboTbtRecv(instId string, dat json.RawMessage) {
 		BidQty:     bidQty,
 		ExchangeTs: ts * 1000,
 		TraceId:    utils.RandomString(8),
-		Ts:         utils.Microsec(time.Now()),
+		LocalTs:    curTs,
+		EventTs:    utils.Microsec(time.Now()),
 	}
 
 	ok.rspHandle(evt)
@@ -248,7 +253,53 @@ func (ok *OkImp) onOrders(instId string, dat json.RawMessage) {
 			UpdateAt:    time.Now().UnixNano() / int64(time.Millisecond),
 		}
 		result = append(result, evt)
+	}
+	ok.rspHandle(result)
+}
 
+func (ok *OkImp) onTrades(instId string, dat json.RawMessage) {
+	curTs := utils.Microsec(time.Now())
+
+	type Trade struct {
+		Symbol     string `json:"instId"`
+		TradeID    string `json:"tradeId"`
+		Side       string `json:"side"`
+		Price      string `json:"px"`
+		Size       string `json:"sz"`
+		Count      string `json:"count"`
+		Ts         string `json:"ts"`
+	}
+
+	var trades []Trade
+	if err := sonic.Unmarshal(dat, &trades); err != nil {
+		log.WithError(err).Error("unmarshal ok trades failed")
+		return
+	}
+
+	var result []*types.Trade
+	for _, trade := range trades {
+		tradeSide := Okx2Side[trade.Side]
+		tradePrice, _ := strconv.ParseFloat(trade.Price, 64)
+		tradeSize, _ := strconv.ParseFloat(trade.Size, 64)
+		tradeCount, _ := strconv.ParseInt(trade.Count, 10, 64)
+		tradeTs, _ := strconv.ParseInt(trade.Ts, 10, 64)
+		tradeExchange := constant.OkxV5Spot
+		if strings.Contains(instId, "-SWAP") {
+			tradeExchange = constant.OkxV5Swap
+		}
+		evt := &types.Trade{
+			Symbol:     OkInstId2Symbol(instId),
+			MarketType: tradeExchange,
+			TradeID:    trade.TradeID,
+			Side:       convertOrderSide(tradeSide),
+			Price:      tradePrice,
+			Size:       tradeSize,
+			Count:      tradeCount,
+			ExchangeTs: tradeTs * 1000,
+			LocalTs:    curTs,
+			EventTs:    utils.Microsec(time.Now()),
+		}
+		result = append(result, evt)
 	}
 	ok.rspHandle(result)
 }
